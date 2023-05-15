@@ -6,7 +6,7 @@ import streamlit as st
 from PIL import Image
 from sklearn.preprocessing import MinMaxScaler
 
-loaded_model = open("C:/Users/adity/OneDrive/Desktop/mp/minor_P/minor_p2/support-system/coding files/best.pkl","rb")
+loaded_model = open("best.pkl","rb")
 classifer = pickle.load(loaded_model)
 st.sidebar.header("User input parameters")
 
