@@ -5,10 +5,33 @@ import pickle
 import streamlit as st
 from PIL import Image
 from sklearn.preprocessing import MinMaxScaler
+import base64
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"jpg"};base64,{encoded_string.decode()});
+        background-repeat: no-repeat;
+        background-size: cover;
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
 
+
+# with open('style.css') as f:
+#     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+add_bg_from_local('Images/bg8.jpg')   
+st.markdown("<h1 style='text-align: center; color: red;'>Smart Rx</h1>", unsafe_allow_html=True)
 loaded_model = open("best.pkl","rb")
 classifer = pickle.load(loaded_model)
-st.sidebar.header("User input parameters")
+st.sidebar.subheader("Upload Symptoms")
+Uploaded_symptoms=st.sidebar.file_uploader("Upload Symptoms",type=['csv'],label_visibility="hidden")
+st.sidebar.subheader("User input Symptoms")
 
 
 def prediction(input_data):
@@ -286,10 +309,11 @@ def user_interface():
 'blister': blister,
 'red_sore_around_nose': red_sore_around_nose,
 'yellow_crust_ooze': yellow_crust_ooze
-
-
     }
-    features = pd.DataFrame(data,index=[0])
+    if(Uploaded_symptoms):
+        features = pd.read_csv(Uploaded_symptoms)
+    else:
+        features = pd.DataFrame(data,index=[0])
     return features
 df = user_interface()
 # st.write(df)
@@ -378,11 +402,14 @@ dis_link = {
     41: "https://www.mayoclinic.org/diseases-conditions/impetigo/symptoms-causes/syc-20352352"
 }
 diseases_swapped = {v: k for k, v in diseases.items()}
-st.header("Smart Rx")
 for i in diseases_swapped:
     if prediction(df) == i:
-        st.subheader("Their are chances the patient may be suffering from the given condition :wink:") # minimize this font 
-        st.write(diseases_swapped[i])
+        st.markdown("<h3 style='color: black;'>There are chances the patient may be suffering from the given condition 👨‍⚕️</h3>", unsafe_allow_html=True)
+        
+        with open('style.css') as f:
+            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+        st.write(f"<span id='dis'>{diseases_swapped[i]}<span>", unsafe_allow_html=True)
         st.write(dis_link[i]) 
 #st.write(diseases_swapped)
-
+st.sidebar.subheader("Download Symptoms")
+st.sidebar.download_button("Download Symptoms",data=df.to_csv(index=False),file_name="symptoms.csv",mime="text/csv")
