@@ -5,13 +5,21 @@
 
 #dis{
 font-size: 40px;
-color: black;}
+color: white;}
 
 div.css-nahz7x.e16nr0p34 a
 {
-    color: #660d0d;
+    /* color: #660d0d; */
+    color: #00f5e0;
 }
 
 .css-nahz7x.e16nr0p34 p {
     text-align: center;
 }
+
+/* span.css-10trblm.e16nr0p30{
+    border: 2pt solid red;
+} */
+
+
+   
