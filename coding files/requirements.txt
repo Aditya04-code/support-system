@@ -5,3 +5,4 @@ math
 matplotlib
 seaborn
 scikit-learn
+streamlit
