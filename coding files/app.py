@@ -26,7 +26,7 @@ def add_bg_from_local(image_file):
 
 # with open('style.css') as f:
 #     st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
-add_bg_from_local('Images/bg.jpg')   
+add_bg_from_local('Images/bg10.jpg')   
 st.markdown("<h1 id='soft_name' style='text-align: center; color: red; font-size: 40px ; text-decoration: underline;'>Smart Rx</h1><br>", unsafe_allow_html=True)
 loaded_model = open("best.pkl","rb")
 classifer = joblib.load(loaded_model)
